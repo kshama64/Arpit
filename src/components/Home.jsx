@@ -61,11 +61,7 @@ export default function Home() {
     },
   ];
   
-  const handleChange = () => {
-    setOpen(true);
-    console.log("clicked");
-    // alert("Clicked");
-  };
+
   return (
     <>
     <Bannerslide/>

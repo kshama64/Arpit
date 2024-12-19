@@ -1,8 +1,11 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import menicon from "../assets/menicon.png";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import PhoneInput from "react-phone-input-2";
 import "react-phone-input-2/lib/style.css";
+
+import axios from "axios";
+import emailjs from "@emailjs/browser";
 
 export default function Testimonial({ open, setOpen }) {
   const [name, setName] = useState("");
@@ -15,6 +18,8 @@ export default function Testimonial({ open, setOpen }) {
   const [error, setError] = useState("");
   const [successMessage, setSuccessMessage] = useState("");
   const [isModalOpen, setIsModalOpen] = useState(false); // Modal state
+  const [pincode, setPincode] = useState()
+  const navigate = useNavigate()
 
   const testimonials = [
     {
@@ -38,41 +43,66 @@ export default function Testimonial({ open, setOpen }) {
   const openModal = () => setIsModalOpen(true);
   const closeModal = () => setIsModalOpen(false);
 
-  const handleSubmit = (e) => {
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // Validate fields
-    if (!name || !email || !phone || !homeType || !propertyName || !address) {
-      setError("Please fill out all fields.");
+
+
+
+
+
+    if (!name || !email || !phone || !homeType || !propertyName || !pincode) {
+      setError("Please fill out all fields");
       setSuccessMessage("");
       return;
     }
 
-    // Form data
-    const formData = {
-      name,
-      email,
-      phone,
-      homeType,
-      propertyName,
-      address,
-      agreeToUpdates,
-    };
 
-    console.log("Form Data:", formData);
 
-    // Reset form
+    const data = new URLSearchParams({
+      apiToken: '7428%7C2f1PQOaINhAiqFrRPnQQCx4gKLhT9cQUZvPpKZ2V',
+      phone_number_id: '339128885942421',
+      template_id: '130298',
+      template_header_media_url: 'https://bot-data.s3.ap-southeast-1.wasabisys.com/upload/2024/12/flowbuilder/flowbuilder-65163-1734431036.pdf',
+      template_quick_reply_button_values: '["EXTERNAL_ECOMMERCE_CANCEL_ORDER","EXTERNAL_ECOMMERCE_CANCEL_ORDER"]',
+      phone_number: phone
+    });
+
+    axios.post('https://botsailor.com/api/v1/whatsapp/send/template', data)
+      .then(response => {
+        console.log('Success:', response.data);
+      })
+      .catch(error => {
+        console.error('Error:', error.response ? error.response.data : error.message);
+      });
+
+
+
+    await emailjs.send("service_pqrd70b", "template_ivr9ggb", {
+      to_name: name,
+      to_email: email
+    }).then((res) => {
+      console.log(res);
+    }).catch((err) => {
+      console.log(err);
+    })
+
+    navigate('/')
+
+    setError("");
+    setSuccessMessage("Form submitted successfully!");
     setName("");
     setEmail("");
     setPhone("+91");
     setHomeType("");
     setPropertyName("");
-    setAddress("");
     setAgreeToUpdates(true);
-    setSuccessMessage("Form submitted successfully!");
-    setError("");
     setIsModalOpen(false);
+    setSuccessMessage("");
   };
+
+  useEffect(() => emailjs.init("c4sWy2XWFZOyRW6c4"), []);
 
   return (
     <div className="py-16 px-4 bg-gray-100">
@@ -142,6 +172,7 @@ export default function Testimonial({ open, setOpen }) {
                 country="in"
                 value={phone}
                 onChange={setPhone}
+                inputStyle={{ height: "40px", width: "100%" }}
                 inputClass="w-full mb-4 border border-gray-300 rounded-md"
               />
               <input
@@ -149,7 +180,15 @@ export default function Testimonial({ open, setOpen }) {
                 value={propertyName}
                 onChange={(e) => setPropertyName(e.target.value)}
                 placeholder="Enter property name"
-                className="w-full px-4 py-2 mb-4 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500"
+                className="w-full mt-4 px-4 py-2 mb-4 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500"
+              />
+
+              <input
+                type="number"
+                value={pincode}
+                onChange={(e) => setPincode(e.target.value)}
+                placeholder="Enter Pincode"
+                className="w-full mt-4 px-4 py-2 mb-4 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500"
               />
               {/* <textarea
                 value={address}
@@ -177,6 +216,7 @@ export default function Testimonial({ open, setOpen }) {
                   onChange={(e) => setAgreeToUpdates(e.target.checked)}
                   className="mr-2"
                 />
+
                 <label>Send me updates on WhatsApp</label>
               </div>
               {error && <p className="text-red-500 mb-4">{error}</p>}

@@ -26,15 +26,15 @@ export default function Bannerslide() {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [open, setOpen] = useState(false); // State for modal form visibility
 
- useEffect(() => {
-  if (!open) {
-    const timer = setInterval(() => {
-      setCurrentIndex((prevIndex) => (prevIndex + 1) % slides.length);
-    }, 5000);
+  useEffect(() => {
+    if (!open) {
+      const timer = setInterval(() => {
+        setCurrentIndex((prevIndex) => (prevIndex + 1) % slides.length);
+      }, 5000);
 
-    return () => clearInterval(timer);
-  }
-}, [slides.length, open]);
+      return () => clearInterval(timer);
+    }
+  }, [slides.length, open]);
 
 
   const prevSlide = () => {
@@ -51,58 +51,57 @@ export default function Bannerslide() {
     <div className="relative font-sans">
       {/* Slider Section */}
       <div className="overflow-hidden">
-  <div
-    className="flex transition-transform ease-out duration-500"
-    style={{ transform: `translateX(-${currentIndex * 100}%)` }}>
-    {slides.map((slide) => (
-      <div className="relative min-w-full" key={slide.id}>
-        <img
-          src={slide.image}
-          alt={slide.heading}
-          className="w-full h-screen sm:h-[80vh] lg:h-[90vh] object-cover" />
-        <div className="absolute inset-0 bg-black bg-opacity-40 flex flex-col justify-center items-center text-center px-4">
-          <h1 className="text-white font-playfair text-3xl sm:text-4xl lg:text-5xl xl:text-6xl font-bold mb-6 leading-tight">
-            {slide.heading}
-          </h1>
-          <button
-            type="button"
-            onClick={() => setOpen(true)}
-            className="bg-red-900 text-white px-8 py-3 rounded-full text-lg sm:text-xl font-medium font-roboto shadow-lg hover:bg-red-800 hover:scale-105 hover:shadow-2xl transition-transform duration-300 ease-in-out">
-            BOOK FREE CONSULTATION
-          </button>
+        <div
+          className="flex transition-transform ease-out duration-500"
+          style={{ transform: `translateX(-${currentIndex * 100}%)` }}>
+          {slides.map((slide) => (
+            <div className="relative min-w-full" key={slide.id}>
+              <img
+                src={slide.image}
+                alt={slide.heading}
+                className="w-full h-screen sm:h-[80vh] lg:h-[90vh] object-cover" />
+              <div className="absolute inset-0 bg-black bg-opacity-40 flex flex-col justify-center items-center text-center px-4">
+                <h1 className="text-white font-playfair text-3xl sm:text-4xl lg:text-5xl xl:text-6xl font-bold mb-6 leading-tight">
+                  {slide.heading}
+                </h1>
+                <button
+                  type="button"
+                  onClick={() => setOpen(true)}
+                  className="bg-red-900 text-white px-8 py-3 rounded-full text-lg sm:text-xl font-medium font-roboto shadow-lg hover:bg-red-800 hover:scale-105 hover:shadow-2xl transition-transform duration-300 ease-in-out">
+                  BOOK FREE CONSULTATION
+                </button>
+              </div>
+            </div>
+          ))}
         </div>
       </div>
-    ))}
-  </div>
-</div>
 
       {/* Form Modal */}
 
       {open && (
         <div className="fixed  inset-0 flex justify-center items-center z-30">
           <div className=" p-6 rounded-lg shadow-lg w-full sm:max-w-lg relative">
-          <button
-  onClick={() => setOpen(false)}
-  className="absolute top-10 right-10 z-50 text-gray-500 hover:text-gray-800"
-  aria-label="Close"
->
-  <svg
-    xmlns="http://www.w3.org/2000/svg"
-    fill="none"
-    viewBox="0 0 24 24"
-    strokeWidth={2}
-    stroke="currentColor"
-    className="w-6 h-6"
-  >
-    <path
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      d="M6 18L18 6M6 6l12 12"
-    />
-  </svg>
-</button>
-
-            <Form/>
+            <button
+              onClick={() => setOpen(false)}
+              className="absolute top-10 right-10 z-50 text-gray-500 hover:text-gray-800"
+              aria-label="Close"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                strokeWidth={2}
+                stroke="currentColor"
+                className="w-6 h-6"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M6 18L18 6M6 6l12 12"
+                />
+              </svg>
+            </button>
+            <Form setOpen={setOpen} />
           </div>
         </div>
       )}
@@ -114,15 +113,14 @@ export default function Bannerslide() {
           <button
             key={index}
             onClick={() => setCurrentIndex(index)}
-            className={`w-3 h-3 rounded-full ${
-              index === currentIndex
+            className={`w-3 h-3 rounded-full ${index === currentIndex
                 ? "bg-yellow-500"
                 : "bg-gray-300 hover:bg-gray-500"
-            }`}
+              }`}
           ></button>
         ))}
       </div>
     </div>
-    
+
   );
 }

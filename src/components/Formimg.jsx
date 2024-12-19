@@ -1,8 +1,10 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import PhoneInput from "react-phone-input-2";
 import "react-phone-input-2/lib/style.css";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import intimg from "../assets/interior.jpg";
+import emailjs from "@emailjs/browser";
+import axios from "axios";
 
 export default function Formimg({ open, setOpen }) {
   const [name, setName] = useState("");
@@ -13,36 +15,78 @@ export default function Formimg({ open, setOpen }) {
   const [agreeToUpdates, setAgreeToUpdates] = useState(true); // Default checked
   const [error, setError] = useState("");
   const [successMessage, setSuccessMessage] = useState("");
+  const [pincode, setPincode] = useState()
+  const navigate = useNavigate()
 
-  const handleSubmit = (e) => {
+  useEffect(() => emailjs.init("c4sWy2XWFZOyRW6c4"), []);
+  
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (!name || !email || !phone || !homeType || !property) {
+
+
+
+
+
+    if (!name || !email || !phone || !homeType || !property || !pincode) {
       setError("Please fill out all fields");
       setSuccessMessage("");
       return;
     }
 
-    setError("");
-    setSuccessMessage("Form submitted successfully!");
 
-    console.log({
-      name,
-      email,
-      phone,
-      homeType,
-      property,
-      agreeToUpdates,
+
+    const data = new URLSearchParams({
+      apiToken: '7428%7C2f1PQOaINhAiqFrRPnQQCx4gKLhT9cQUZvPpKZ2V',
+      phone_number_id: '339128885942421',
+      template_id: '130298',
+      template_header_media_url: 'https://bot-data.s3.ap-southeast-1.wasabisys.com/upload/2024/12/flowbuilder/flowbuilder-65163-1734431036.pdf',
+      template_quick_reply_button_values: '["EXTERNAL_ECOMMERCE_CANCEL_ORDER","EXTERNAL_ECOMMERCE_CANCEL_ORDER"]',
+      phone_number: phone
     });
 
+    axios.post('https://botsailor.com/api/v1/whatsapp/send/template', data)
+      .then(response => {
+        console.log('Success:', response.data);
+      })
+      .catch(error => {
+        console.error('Error:', error.response ? error.response.data : error.message);
+      });
+
+
+
+    await emailjs.send("service_pqrd70b", "template_ivr9ggb", {
+      to_name: name,
+      to_email: email
+    }).then((res) => {
+      console.log(res);
+    }).catch((err) => {
+      console.log(err);
+    })
+
+    navigate('/')
+
+    // window.scrollTo({top : 0 , behavior : "smooth"})
+
+
+    setError("");
+    setSuccessMessage("Form submitted successfully!");
     setName("");
     setEmail("");
     setPhone("+91");
     setHomeType("");
     setProperty("");
     setAgreeToUpdates(true);
-    setOpen(false);
+    setPincode("")
+    setSuccessMessage("");
+
+  
   };
+
+  useEffect(()=>{
+    setSuccessMessage("")
+  },[])
 
   return (
     <>
@@ -82,10 +126,11 @@ export default function Formimg({ open, setOpen }) {
             </div>
 
             {/* Phone Number Field */}
-            <div className="mb-6">
+            <div className="mb-6 ">
               <PhoneInput
                 country="in"
                 value={phone}
+                inputStyle={{height : "40px" , width : "100%"}}
                 onChange={(phone) => setPhone(phone)}
                 inputClass="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all duration-300"
               />
@@ -101,7 +146,18 @@ export default function Formimg({ open, setOpen }) {
                 required
                 className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all duration-300"
               />
+
+
             </div>
+
+
+            <input
+          type="number"
+          value={pincode}
+          onChange={(e) => setPincode(e.target.value)}
+          placeholder="Enter Pincode"
+          className="w-full mt-2 px-4 py-2 mb-4 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500"
+        />
 
             {/* Checkbox for Updates */}
             <div className="mb-6 flex items-center">
@@ -113,6 +169,8 @@ export default function Formimg({ open, setOpen }) {
               />
               <p className="text-gray-700 text-sm">Send me updates on WhatsApp</p>
             </div>
+
+
 
             {/* Home Type Dropdown */}
             <div className="mb-6">

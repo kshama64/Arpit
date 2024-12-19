@@ -1,8 +1,12 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import PhoneInput from "react-phone-input-2";
 import "react-phone-input-2/lib/style.css";
 import img from "../assets/arpit.png";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import emailjs from "@emailjs/browser";
+
+import axios from "axios"
+
 
 export default function Form({ open, setOpen }) {
   const [name, setName] = useState("");
@@ -14,29 +18,55 @@ export default function Form({ open, setOpen }) {
   const [agreeToUpdates, setAgreeToUpdates] = useState(true);
   const [error, setError] = useState("");
   const [successMessage, setSuccessMessage] = useState("");
+  const [locationData, setLocationData] = useState("");
+  const [pincode, setPincode] = useState()
+  const navigate = useNavigate()
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // Check for empty fields
-    if (!name || !email || !phone || !homeType || !propertyName || !address) {
+
+
+
+
+
+    if (!name || !email || !phone || !homeType || !propertyName || !pincode) {
       setError("Please fill out all fields");
       setSuccessMessage("");
       return;
     }
 
-    // Log form data to the console
-    console.log({
-      name,
-      email,
-      phone,
-      homeType,
-      propertyName,
-      address,
-      agreeToUpdates,
+
+
+    const data = new URLSearchParams({
+      apiToken: '7428%7C2f1PQOaINhAiqFrRPnQQCx4gKLhT9cQUZvPpKZ2V',
+      phone_number_id: '339128885942421',
+      template_id: '130298',
+      template_header_media_url: 'https://bot-data.s3.ap-southeast-1.wasabisys.com/upload/2024/12/flowbuilder/flowbuilder-65163-1734431036.pdf',
+      template_quick_reply_button_values: '["EXTERNAL_ECOMMERCE_CANCEL_ORDER","EXTERNAL_ECOMMERCE_CANCEL_ORDER"]',
+      phone_number: phone
     });
 
-    // Reset form and display success message
+    axios.post('https://botsailor.com/api/v1/whatsapp/send/template', data)
+      .then(response => {
+        console.log('Success:', response.data);
+      })
+      .catch(error => {
+        console.error('Error:', error.response ? error.response.data : error.message);
+      });
+
+
+
+    await emailjs.send("service_pqrd70b", "template_ivr9ggb", {
+      to_name: name,
+      to_email: email
+    }).then((res) => {
+      console.log(res);
+    }).catch((err) => {
+      console.log(err);
+    })
+    navigate("/")
+
     setError("");
     setSuccessMessage("Form submitted successfully!");
     setName("");
@@ -48,6 +78,36 @@ export default function Form({ open, setOpen }) {
     setAgreeToUpdates(true);
     setOpen(false);
   };
+
+  useEffect(() => emailjs.init("c4sWy2XWFZOyRW6c4"), []);
+
+  const handleSearch = async () => {
+
+    if (!window.google || !window.google.maps || !window.google.maps.places) {
+      console.error("Google Maps API is not loaded.");
+      return;
+    }
+
+    const service = new window.google.maps.places.AutocompleteService();
+    const request = { input: propertyName, types: ["geocode"] };
+
+    service.getPlacePredictions(request, (results, status) => {
+      if (status === window.google.maps.places.PlacesServiceStatus.OK && results) {
+        console.log(results);
+        setLocationData(results[0]?.description || "");
+      } else {
+        console.error("AutocompleteService error:", status);
+      }
+    });
+  };
+
+  useEffect(() => {
+
+
+    if (propertyName) {
+      handleSearch();
+    }
+  }, [propertyName]);
 
   return (
     <div className="flex justify-center items-center min-h-screen mt-5">
@@ -66,7 +126,6 @@ export default function Form({ open, setOpen }) {
           Budget-friendly design, Get in touch!
         </h2>
 
-        {/* Name Field */}
         <input
           type="text"
           value={name}
@@ -75,7 +134,6 @@ export default function Form({ open, setOpen }) {
           className="w-full px-4 py-2 mb-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500"
         />
 
-        {/* Email Field */}
         <input
           type="email"
           value={email}
@@ -84,32 +142,31 @@ export default function Form({ open, setOpen }) {
           className="w-full px-4 py-2 mb-4 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500"
         />
 
-        {/* Phone Number Field */}
         <PhoneInput
           country="in"
           value={phone}
           onChange={setPhone}
-          inputClass="w-full mb-4 border border-gray-300 rounded-md"
+          inputStyle={{ height: "40px", width: "100%" }}
+        // inputClass="w-full mb-4 px-4 py-2 mb-4 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500"
         />
 
-        {/* Property Name Field */}
         <input
           type="text"
           value={propertyName}
           onChange={(e) => setPropertyName(e.target.value)}
           placeholder="Enter property name"
-          className="w-full px-4 py-2 mb-4 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500"
+          className="w-full mt-4 px-4 py-2 mb-4 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500"
         />
 
-        {/* Address Field */}
-        {/* <textarea
-          value={address}
-          onChange={(e) => setAddress(e.target.value)}
-          placeholder="Enter your address"
-          className="w-full px-4 py-2 mb-4 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500"
-        /> */}
+        <input
+          type="number"
+          value={pincode}
+          onChange={(e) => setPincode(e.target.value)}
+          placeholder="Enter Pincode"
+          className="w-full mt-4 px-4 py-2 mb-4 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500"
+        />
 
-        {/* Home Type Dropdown */}
+
         <select
           value={homeType}
           onChange={(e) => setHomeType(e.target.value)}
@@ -124,7 +181,6 @@ export default function Form({ open, setOpen }) {
           <option value="4bhk">4+BHK/Duplex</option>
         </select>
 
-        {/* Checkbox */}
         <div className="mb-4 flex items-center">
           <input
             type="checkbox"
@@ -135,18 +191,15 @@ export default function Form({ open, setOpen }) {
           <label>Send me updates on WhatsApp</label>
         </div>
 
-        {/* Error Message */}
         {error && <p className="text-red-500 mb-4">{error}</p>}
-
-        {/* Success Message */}
         {successMessage && <p className="text-green-500 mb-4">{successMessage}</p>}
 
-        {/* Submit Button */}
         <button
           type="submit"
           className="w-full bg-red-900 text-white py-2 rounded-md hover:bg-blue-600"
         >
- Quote        </button>
+          Quote
+        </button>
 
         <p className="text-sm text-gray-500 mt-4">
           By submitting, you agree to the{" "}
