@@ -182,21 +182,22 @@ export default function Form({ open, setOpen }) {
         </select>
 
         <div className="mb-4 flex items-center">
-          <input
-            type="checkbox"
-            checked={agreeToUpdates}
-            onChange={(e) => setAgreeToUpdates(e.target.checked)}
-            className="mr-2"
-          />
-          <label>Send me updates on WhatsApp</label>
-        </div>
+  <input
+    type="checkbox"
+    checked={agreeToUpdates}
+    onChange={(e) => setAgreeToUpdates(e.target.checked)}
+    className="mr-2 accent-red-800"
+  />
+  <label>Send me updates on WhatsApp</label>
+</div>
+
 
         {error && <p className="text-red-500 mb-4">{error}</p>}
         {successMessage && <p className="text-green-500 mb-4">{successMessage}</p>}
 
         <button
           type="submit"
-          className="w-full bg-red-900 text-white py-2 rounded-md hover:bg-blue-600"
+          className="w-full bg-red-900 text-white py-2 rounded-md hover:bg-red-800"
         >
           Quote
         </button>

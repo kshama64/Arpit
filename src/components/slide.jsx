@@ -90,20 +90,30 @@ export default function Slide({ open, setOpen }) {
   return (
     <>
       <div className="py-8 px-4 md:px-20 bg-white">
-        <h2 className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-center mb-8 text-black">
-          Why Choose Us
-        </h2>
-        <Slider {...settings}>
-          {clients.map((client, index) => (
-            <div key={index} className="flex flex-col items-center px-4 py-6 bg-white rounded-lg shadow-lg">
-              <img src={client.logo} alt={`Client logo ${index + 1}`} className="w-36 h-24 mb-4" />
-              <p className="text-xl text-gray-800 font-serif">{client.description}</p>
-            </div>
-          ))}
-        </Slider>
+  <h2 className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-center mb-8 text-black">
+    Why Choose Us
+  </h2>
+  <Slider {...settings}>
+    {clients.map((client, index) => (
+      <div 
+        key={index} 
+        className="flex flex-col items-center px-4 py-6 bg-white rounded-lg"
+      >
+        <img 
+          src={client.logo} 
+          alt={`Client logo ${index + 1}`} 
+          className="w-36 h-24 mb-4"
+        />
+        <p className="text-xl text-gray-800 font-serif">
+          {client.description}
+        </p>
       </div>
+    ))}
+  </Slider>
+</div>
 
-      <div className="flex justify-center mt-6">
+
+      <div className="flex justify-center mb-8">
         <button
           onClick={openModal}
           className="bg-red-800 text-white py-2 px-6 rounded-lg text-lg hover:bg-red-700 transition-all"

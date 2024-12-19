@@ -161,14 +161,15 @@ export default function Formimg({ open, setOpen }) {
 
             {/* Checkbox for Updates */}
             <div className="mb-6 flex items-center">
-              <input
-                type="checkbox"
-                checked={agreeToUpdates}
-                onChange={(e) => setAgreeToUpdates(e.target.checked)}
-                className="mr-2 w-5 h-5 text-blue-600 bg-gray-100 rounded border-gray-300 focus:ring-blue-500"
-              />
-              <p className="text-gray-700 text-sm">Send me updates on WhatsApp</p>
-            </div>
+  <input
+    type="checkbox"
+    checked={agreeToUpdates}
+    onChange={(e) => setAgreeToUpdates(e.target.checked)}
+    className="mr-2 w-5 h-5 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-800 accent-red-800"
+  />
+  <p className="text-gray-700 text-sm">Send me updates on WhatsApp</p>
+</div>
+
 
 
 

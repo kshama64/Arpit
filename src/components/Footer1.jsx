@@ -25,7 +25,7 @@ export default function Footer1() {
         </div>
 
         {/* Centered Logo */}
-        <div className="flex justify-center items-center flex-1">
+        <div className="flex justify-center items-center flex-1 mr-20">
           <img
             src={img1} // Replace with your logo path
             alt="Logo"
