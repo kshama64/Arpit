@@ -108,8 +108,8 @@ export default function Bannerslide() {
                 setCurrentIndex(index + 1); // Adjust for extendedSlides
               }}
               className={`w-3 h-3 rounded-full ${index + 1 === currentIndex
-                  ? "bg-red-800"
-                  : "bg-gray-300 hover:bg-gray-500"
+                ? "bg-red-800"
+                : "bg-gray-300 hover:bg-gray-500"
                 }`}
             ></button>
           ))}

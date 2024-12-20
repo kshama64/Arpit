@@ -9,7 +9,7 @@ import axios from "axios"
 
 
 export default function Form() {
-  const [loading , setLoading] = useState(false)
+  const [loading, setLoading] = useState(false)
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("+91");
@@ -21,8 +21,14 @@ export default function Form() {
   const [successMessage, setSuccessMessage] = useState("");
   const [locationData, setLocationData] = useState("");
   const [pincode, setPincode] = useState();
+
+  const [isFormVisible, setIsFormVisible] = useState(true);
+
   // const [isChecked, setIsChecked] = useState(true)
   const navigate = useNavigate()
+
+  // const openModal = () => setIsModalOpen(true);
+  const closeModal = () => setIsFormVisible(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -110,9 +116,8 @@ export default function Form() {
       setPropertyName("");
       setAddress("");
       setAgreeToUpdates(true);
-   
       setLoading(false)
-
+      setIsFormVisible(false)
       // Navigate to home
       navigate("/");
       window.location.reload();
@@ -153,113 +158,125 @@ export default function Form() {
     }
   }, [propertyName]);
 
+
   return (
-    <div className="flex justify-center items-center pt-48 w-100 h-screen overflow-auto">
-      <form
-        onSubmit={handleSubmit}
-        className="bg-white p-6 rounded-xl shadow-2xl w-full sm:max-w-md md:max-w-lg lg:max-w-xl xl:max-w-2xl"
-      >
-        <img
-          src={img}
-          alt="Banner"
-          className="rounded-t-xl mb-4"
-          height="150px"
-          // width="100"
-        />
-        <h2 className="text-lg font-semibold text-gray-700 mb-6">
-          Budget-friendly design, Get in touch!
-        </h2>
+    <div>
+      {isFormVisible && (
+        <div className="relative flex justify-center items-center pt-64 w-100 h-screen overflow-auto">
+          <button
+            onClick={closeModal}
+            className="absolute top-4 right-3 md:top-1 md:right-5 text-red-700 hover:text-red-800 text-2xl font-bold"
+          >
+            &times;
+          </button>
+          <form
+            onSubmit={handleSubmit}
+            className="bg-white p-6 rounded-xl shadow-2xl w-full sm:max-w-md md:max-w-lg lg:max-w-xl xl:max-w-2xl"
+          >
+            <img
+              src={img}
+              alt="Banner"
+              className="rounded-t-xl mb-4"
+              height="150px"
+            // width="100"
+            />
+            <h2 className="text-lg font-semibold text-gray-700 mb-6">
+              Budget-friendly design, Get in touch!
+            </h2>
 
-        <input
-          type="text"
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-          placeholder="Enter your name"
-          className="w-full px-4 py-2 mb-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500"
-        />
+            <input
+              type="text"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              placeholder="Enter your name"
+              className="w-full px-4 py-2 mb-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500"
+            />
 
-        <input
-          type="email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          placeholder="Enter your email"
-          className="w-full px-4 py-2 mb-4 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500"
-        />
+            <input
+              type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              placeholder="Enter your email"
+              className="w-full px-4 py-2 mb-4 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500"
+            />
 
-        <PhoneInput
-          country="in"
-          value={phone}
-          onChange={setPhone}
-          inputStyle={{ height: "40px", width: "100%" }}
-        // inputClass="w-full mb-4 px-4 py-2 mb-4 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500"
-        />
+            <PhoneInput
+              country="in"
+              value={phone}
+              onChange={setPhone}
+              inputStyle={{ height: "40px", width: "100%" }}
+            // inputClass="w-full mb-4 px-4 py-2 mb-4 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500"
+            />
 
-        <input
-          type="text"
-          value={propertyName}
-          onChange={(e) => setPropertyName(e.target.value)}
-          placeholder="Enter property name"
-          className="w-full mt-4 px-4 py-2 mb-4 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500"
-        />
+            <input
+              type="text"
+              value={propertyName}
+              onChange={(e) => setPropertyName(e.target.value)}
+              placeholder="Enter property name"
+              className="w-full mt-4 px-4 py-2 mb-4 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500"
+            />
 
-        <input
-          type="number"
-          value={pincode}
-          onChange={(e) => setPincode(e.target.value)}
-          placeholder="Enter Pincode"
-          className="w-full mt-4 px-4 py-2 mb-4 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500"
-        />
+            <input
+              type="number"
+              value={pincode}
+              onChange={(e) => setPincode(e.target.value)}
+              placeholder="Enter Pincode"
+              className="w-full mt-4 px-4 py-2 mb-4 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500"
+            />
 
 
-        <select
-          value={homeType}
-          onChange={(e) => setHomeType(e.target.value)}
-          className="w-full px-4 py-2 mb-4 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500"
-        >
-          <option value="">Select Your Home Type</option>
-          <option value="apartment">Independent Houses/Villa</option>
-          <option value="studio">RK/Studio</option>
-          <option value="1bhk">1BHK</option>
-          <option value="2bhk">2BHK</option>
-          <option value="3bhk">3BHK</option>
-          <option value="4bhk">4+BHK/Duplex</option>
-        </select>
+            <select
+              value={homeType}
+              onChange={(e) => setHomeType(e.target.value)}
+              className="w-full px-4 py-2 mb-4 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500"
+            >
+              <option value="">Select Your Home Type</option>
+              <option value="apartment">Independent Houses/Villa</option>
+              <option value="studio">RK/Studio</option>
+              <option value="1bhk">1BHK</option>
+              <option value="2bhk">2BHK</option>
+              <option value="3bhk">3BHK</option>
+              <option value="4bhk">4+BHK/Duplex</option>
+            </select>
 
-        <div className="mb-4 flex items-center">
-          <input
-            type="checkbox"
-            checked={agreeToUpdates}
-            onChange={(e) => setAgreeToUpdates(e.target.checked)}
-            className="mr-2 accent-red-800"
-          />
-          <label>Send me updates on WhatsApp</label>
+            <div className="mb-4 flex items-center">
+              <input
+                type="checkbox"
+                checked={agreeToUpdates}
+                onChange={(e) => setAgreeToUpdates(e.target.checked)}
+                className="mr-2 accent-red-800"
+              />
+              <label>Send me updates on WhatsApp</label>
+            </div>
+
+
+            {error && <p className="text-red-500 mb-4">{error}</p>}
+            {successMessage && <p className="text-green-500 mb-4">{successMessage}</p>}
+
+            <button
+              type="submit"
+              className="w-full bg-red-900 text-white py-2 rounded-md hover:bg-red-800"
+            >
+              {
+                loading ? "Processing.." : "Quote"
+              }
+            </button>
+
+            <p className="text-sm text-gray-500 mt-4">
+              By submitting, you agree to the{" "}
+              <Link to="/privacy" className="text-blue-500 hover:underline">
+                Privacy Policy
+              </Link>{" "}
+              and{" "}
+              <Link to="/terms" className="text-blue-500 hover:underline">
+                Terms of Use
+              </Link>
+              .
+            </p>
+          </form>
         </div>
+      )}
 
-
-        {error && <p className="text-red-500 mb-4">{error}</p>}
-        {successMessage && <p className="text-green-500 mb-4">{successMessage}</p>}
-
-        <button
-          type="submit"
-          className="w-full bg-red-900 text-white py-2 rounded-md hover:bg-red-800"
-        >
-          {
-            loading ? "Processing.." : "Quote"
-          }
-        </button>
-
-        <p className="text-sm text-gray-500 mt-4">
-          By submitting, you agree to the{" "}
-          <Link to="/privacy" className="text-blue-500 hover:underline">
-            Privacy Policy
-          </Link>{" "}
-          and{" "}
-          <Link to="/terms" className="text-blue-500 hover:underline">
-            Terms of Use
-          </Link>
-          .
-        </p>
-      </form>
     </div>
   );
 }

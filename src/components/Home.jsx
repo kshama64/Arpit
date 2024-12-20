@@ -60,12 +60,12 @@ export default function Home() {
         "A cozy living room with comfortable seating, accent lighting, and modern decor, creating a space perfect for relaxation and entertainment.",
     },
   ];
-  
+
 
   return (
     <>
-    <Bannerslide/>
-    <Formimg/>
+      <Bannerslide />
+      <Formimg />
       {/* Remaining Content */}
       <div className="p-6 sm:p-10 bg-gray-100">
         <div className="text-center mb-10">
@@ -86,7 +86,7 @@ export default function Home() {
               <img
                 src={card.image}
                 alt={card.title}
-                className="w-full h-48 object-cover"/>
+                className="w-full h-48 object-cover" />
               <div className="p-4">
                 <h2 className="text-lg font-bold text-black mb-2 font-serif">
                   {card.title}
@@ -105,7 +105,7 @@ export default function Home() {
       {/* <Form/> */}
 
       {
-        isMobile ?  <Footer1/>: <Footer/>
+        isMobile ? <Footer1 /> : <Footer />
       }
     </>
   );

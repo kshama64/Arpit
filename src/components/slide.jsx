@@ -90,27 +90,27 @@ export default function Slide({ open, setOpen }) {
   return (
     <>
       <div className="py-8 px-4 md:px-20 bg-white">
-  <h2 className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-center mb-8 text-black">
-    Why Choose Us
-  </h2>
-  <Slider {...settings}>
-    {clients.map((client, index) => (
-      <div 
-        key={index} 
-        className="flex flex-col items-center px-4 py-6 bg-white rounded-lg"
-      >
-        <img 
-          src={client.logo} 
-          alt={`Client logo ${index + 1}`} 
-          className="w-36 h-24 mb-4"
-        />
-        <p className="text-xl text-gray-800 font-serif">
-          {client.description}
-        </p>
+        <h2 className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-center mb-8 text-black">
+          Why Choose Us
+        </h2>
+        <Slider {...settings}>
+          {clients.map((client, index) => (
+            <div
+              key={index}
+              className="flex flex-col items-center px-4 py-6 bg-white rounded-lg"
+            >
+              <img
+                src={client.logo}
+                alt={`Client logo ${index + 1}`}
+                className="w-36 h-24 mb-4"
+              />
+              <p className="text-xl text-gray-800 font-serif">
+                {client.description}
+              </p>
+            </div>
+          ))}
+        </Slider>
       </div>
-    ))}
-  </Slider>
-</div>
 
 
       <div className="flex justify-center mb-8">
@@ -128,7 +128,7 @@ export default function Slide({ open, setOpen }) {
           onClick={closeModal}
         >
           <div className=" p-6 rounded-lg shadow-lg w-11/12 sm:w-3/4 md:w-1/2" onClick={(e) => e.stopPropagation()}>
-            <Form/>
+            <Form />
           </div>
         </div>
       )}

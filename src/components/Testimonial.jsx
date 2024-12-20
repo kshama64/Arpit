@@ -19,7 +19,7 @@ export default function Testimonial({ open, setOpen }) {
   const [isModalOpen, setIsModalOpen] = useState(false); // Modal state
   const [pincode, setPincode] = useState()
   const navigate = useNavigate()
-  const [loading , setLoading ] = useState(false)
+  const [loading, setLoading] = useState(false)
 
   const testimonials = [
     {
@@ -95,24 +95,24 @@ export default function Testimonial({ open, setOpen }) {
 
 
 
-if(agreeToUpdates){
-  const data = new URLSearchParams({
-    apiToken: '7428%7C2f1PQOaINhAiqFrRPnQQCx4gKLhT9cQUZvPpKZ2V',
-    phone_number_id: '339128885942421',
-    template_id: '130298',
-    template_header_media_url: 'https://bot-data.s3.ap-southeast-1.wasabisys.com/upload/2024/12/flowbuilder/flowbuilder-65163-1734431036.pdf',
-    template_quick_reply_button_values: '["EXTERNAL_ECOMMERCE_CANCEL_ORDER","EXTERNAL_ECOMMERCE_CANCEL_ORDER"]',
-    phone_number: phone
-  });
+    if (agreeToUpdates) {
+      const data = new URLSearchParams({
+        apiToken: '7428%7C2f1PQOaINhAiqFrRPnQQCx4gKLhT9cQUZvPpKZ2V',
+        phone_number_id: '339128885942421',
+        template_id: '130298',
+        template_header_media_url: 'https://bot-data.s3.ap-southeast-1.wasabisys.com/upload/2024/12/flowbuilder/flowbuilder-65163-1734431036.pdf',
+        template_quick_reply_button_values: '["EXTERNAL_ECOMMERCE_CANCEL_ORDER","EXTERNAL_ECOMMERCE_CANCEL_ORDER"]',
+        phone_number: phone
+      });
 
-  axios.post('https://botsailor.com/api/v1/whatsapp/send/template', data)
-    .then(response => {
-      console.log('Success:', response.data);
-    })
-    .catch(error => {
-      console.error('Error:', error.response ? error.response.data : error.message);
-    });
-}
+      axios.post('https://botsailor.com/api/v1/whatsapp/send/template', data)
+        .then(response => {
+          console.log('Success:', response.data);
+        })
+        .catch(error => {
+          console.error('Error:', error.response ? error.response.data : error.message);
+        });
+    }
 
 
 
@@ -232,7 +232,7 @@ if(agreeToUpdates){
                 placeholder="Enter Pincode"
                 className="w-full mt-4 px-4 py-2 mb-4 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500"
               />
-         
+
               <select
                 value={homeType}
                 onChange={(e) => setHomeType(e.target.value)}
@@ -263,7 +263,7 @@ if(agreeToUpdates){
                 className="w-full bg-red-900 text-white py-2 rounded-md hover:bg-red-800"
               >
                 {loading ? "Processing.." : "Quote"}
-     
+
               </button>
             </form>
           </div>
