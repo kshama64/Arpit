@@ -24,58 +24,74 @@ export default function Bannerslide() {
     },
   ];
 
-  const [currentIndex, setCurrentIndex] = useState(0);
+  const [currentIndex, setCurrentIndex] = useState(1); // Start at the first real slide
+  const [isTransitioning, setIsTransitioning] = useState(true); // Handle smooth transitions
   const [open, setOpen] = useState(false); // State for modal form visibility
+
+  const slideCount = slides.length;
+
+  const extendedSlides = [
+    slides[slides.length - 1], // Clone last slide for seamless transition
+    ...slides,
+    slides[0], // Clone first slide for seamless transition
+  ];
 
   useEffect(() => {
     if (!open) {
       const timer = setInterval(() => {
-        setCurrentIndex((prevIndex) => (prevIndex + 1) % slides.length);
+        nextSlide();
       }, 5000);
 
       return () => clearInterval(timer);
     }
-  }, [slides.length, open]);
-
-
-  const prevSlide = () => {
-    setCurrentIndex((prevIndex) =>
-      prevIndex === 0 ? slides.length - 1 : prevIndex - 1
-    );
-  };
+  }, [currentIndex, open]);
 
   const nextSlide = () => {
-    setCurrentIndex((prevIndex) => (prevIndex + 1) % slides.length);
+    setIsTransitioning(true);
+    setCurrentIndex((prevIndex) => prevIndex + 1);
+  };
+
+  const prevSlide = () => {
+    setIsTransitioning(true);
+    setCurrentIndex((prevIndex) => prevIndex - 1);
+  };
+
+  const handleTransitionEnd = () => {
+    // Loop back to the real first/last slide without transition
+    if (currentIndex === 0) {
+      setIsTransitioning(false);
+      setCurrentIndex(slideCount);
+    } else if (currentIndex === slideCount + 1) {
+      setIsTransitioning(false);
+      setCurrentIndex(1);
+    }
   };
 
   return (
     <>
-
       <div className="relative font-sans">
         {/* Slider Section */}
         <div className="overflow-hidden">
           <div
-            className="flex transition-transform ease-out duration-500"
-            style={{ transform: `translateX(-${currentIndex * 100}%)` }}>
-            {slides.map((slide) => (
-              <div className="relative min-w-full" key={slide.id}>
+            className={`flex transition-transform ease-out duration-500 ${
+              isTransitioning ? "" : "transition-none"
+            }`}
+            style={{ transform: `translateX(-${currentIndex * 100}%)` }}
+            onTransitionEnd={handleTransitionEnd}
+          >
+            {extendedSlides.map((slide, index) => (
+              <div className="relative min-w-full" key={index}>
                 <img
                   src={slide.image}
                   alt={slide.heading}
-                  className="w-full h-screen sm:h-[80vh] lg:h-[90vh] object-cover" />
+                  className="w-full h-screen sm:h-[80vh] lg:h-[90vh] object-cover"
+                />
                 <div className="absolute inset-0 bg-black bg-opacity-40 flex flex-col justify-center items-center text-center px-4">
                   <h1 className="text-white font-playfair text-3xl sm:text-4xl lg:text-5xl xl:text-6xl font-bold mb-6 leading-tight">
                     {slide.heading}
                   </h1>
-                  {/* <button
-                  type="button"
-                  onClick={() => setOpen(true)}
-                  className="bg-red-900 text-white px-8 py-3 rounded-full text-lg sm:text-xl font-medium font-roboto shadow-lg hover:bg-red-800 hover:scale-105 hover:shadow-2xl transition-transform duration-300 ease-in-out">
-                  BOOK FREE CONSULTATION
-                </button> */}
-
                   <DialogDefault>
-                    <Form  />
+                    <Form />
                   </DialogDefault>
                 </div>
               </div>
@@ -83,34 +99,24 @@ export default function Bannerslide() {
           </div>
         </div>
 
-
-
-
         {/* Dots Indicator */}
         <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 flex space-x-2">
           {slides.map((_, index) => (
             <button
               key={index}
-              onClick={() => setCurrentIndex(index)}
-              className={`w-3 h-3 rounded-full ${index === currentIndex
-                ? "bg-yellow-500"
-                : "bg-gray-300 hover:bg-gray-500"
-                }`}
+              onClick={() => {
+                setIsTransitioning(true);
+                setCurrentIndex(index + 1); // Adjust for extendedSlides
+              }}
+              className={`w-3 h-3 rounded-full ${
+                index + 1 === currentIndex
+                  ? "bg-yellow-500"
+                  : "bg-gray-300 hover:bg-gray-500"
+              }`}
             ></button>
           ))}
         </div>
       </div>
-
-      {/* Form Modal */}
-
-      {/* {open && ( 
-     
-     
-      )} */}
     </>
-
-
-
-
   );
 }
