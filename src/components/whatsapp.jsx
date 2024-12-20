@@ -18,7 +18,7 @@ export default function Whatsapp() {
         href="https://wa.me/8449446389?text=Hi, NAIMS INTERIOR Team, I need assistance regarding your services. Ref: #INQ-7845,%20NAIMS%20INTERIOR%20Team,%20I%20need%20assistance%20regarding%20your%20services.%20Ref:%20#INQ-7845"
         target="_blank"
         rel="noopener noreferrer"
-        className="hidden md:flex fixed right-4 top-1/2 transform -translate-y-1/2 z-50 items-center justify-center w-16 h-16 bg-white text-green-500 border border-green-500 rounded-full shadow-lg hover:bg-green-100 transition-all duration-300 ease-in-out"
+        className="hidden md:flex fixed right-0 top-1/2 transform -translate-y-1/2 z-50 items-center justify-center w-16 h-16 bg-white text-green-500 border  rounded-l-full shadow-lg hover:bg-green-100 transition-all duration-300 ease-in-out"
         aria-label="Contact us on WhatsApp">
         <FaWhatsapp size={32} />
       </a>
