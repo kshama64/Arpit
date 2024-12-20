@@ -13,13 +13,13 @@ export default function Testimonial({ open, setOpen }) {
   const [phone, setPhone] = useState("+91");
   const [homeType, setHomeType] = useState("");
   const [propertyName, setPropertyName] = useState("");
-  const [address, setAddress] = useState("");
   const [agreeToUpdates, setAgreeToUpdates] = useState(true);
   const [error, setError] = useState("");
   const [successMessage, setSuccessMessage] = useState("");
   const [isModalOpen, setIsModalOpen] = useState(false); // Modal state
   const [pincode, setPincode] = useState()
   const navigate = useNavigate()
+  const [loading , setLoading ] = useState(false)
 
   const testimonials = [
     {
@@ -47,35 +47,75 @@ export default function Testimonial({ open, setOpen }) {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    setLoading(true)
 
+    if (!name) {
+      setLoading(false)
+      setError("Name is required.");
+      setSuccessMessage("");
+      return;
+    }
 
+    if (!email) {
+      setLoading(false)
+      setError("Email is required.");
+      setSuccessMessage("");
+      return;
+    }
 
+    if (!phone || !/^\d{12}$/.test(phone)) {
+      setLoading(false)
+      setError("Please enter a valid 10-digit phone number.");
+      setSuccessMessage("");
+      return;
+    }
 
+    if (!homeType) {
+      setLoading(false)
+      setError("Home type is required.");
+      setSuccessMessage("");
+      return;
+    }
 
-    if (!name || !email || !phone || !homeType || !propertyName || !pincode) {
-      setError("Please fill out all fields");
+    if (!propertyName) {
+      setLoading(false)
+      setError("Property name is required.");
+      setSuccessMessage("");
+      return;
+    }
+
+    if (!pincode || !/^\d{6}$/.test(pincode)) {
+      setLoading(false)
+      setError("Please enter a valid 6-digit pincode.");
       setSuccessMessage("");
       return;
     }
 
 
 
-    const data = new URLSearchParams({
-      apiToken: '7428%7C2f1PQOaINhAiqFrRPnQQCx4gKLhT9cQUZvPpKZ2V',
-      phone_number_id: '339128885942421',
-      template_id: '130298',
-      template_header_media_url: 'https://bot-data.s3.ap-southeast-1.wasabisys.com/upload/2024/12/flowbuilder/flowbuilder-65163-1734431036.pdf',
-      template_quick_reply_button_values: '["EXTERNAL_ECOMMERCE_CANCEL_ORDER","EXTERNAL_ECOMMERCE_CANCEL_ORDER"]',
-      phone_number: phone
-    });
 
-    axios.post('https://botsailor.com/api/v1/whatsapp/send/template', data)
-      .then(response => {
-        console.log('Success:', response.data);
-      })
-      .catch(error => {
-        console.error('Error:', error.response ? error.response.data : error.message);
-      });
+
+if(agreeToUpdates){
+  const data = new URLSearchParams({
+    apiToken: '7428%7C2f1PQOaINhAiqFrRPnQQCx4gKLhT9cQUZvPpKZ2V',
+    phone_number_id: '339128885942421',
+    template_id: '130298',
+    template_header_media_url: 'https://bot-data.s3.ap-southeast-1.wasabisys.com/upload/2024/12/flowbuilder/flowbuilder-65163-1734431036.pdf',
+    template_quick_reply_button_values: '["EXTERNAL_ECOMMERCE_CANCEL_ORDER","EXTERNAL_ECOMMERCE_CANCEL_ORDER"]',
+    phone_number: phone
+  });
+
+  axios.post('https://botsailor.com/api/v1/whatsapp/send/template', data)
+    .then(response => {
+      console.log('Success:', response.data);
+    })
+    .catch(error => {
+      console.error('Error:', error.response ? error.response.data : error.message);
+    });
+}
+
+
+
 
 
 
@@ -100,6 +140,8 @@ export default function Testimonial({ open, setOpen }) {
     setAgreeToUpdates(true);
     setIsModalOpen(false);
     setSuccessMessage("");
+    window.location.reload()
+    window.screenTop()
   };
 
   useEffect(() => emailjs.init("c4sWy2XWFZOyRW6c4"), []);
@@ -190,12 +232,7 @@ export default function Testimonial({ open, setOpen }) {
                 placeholder="Enter Pincode"
                 className="w-full mt-4 px-4 py-2 mb-4 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500"
               />
-              {/* <textarea
-                value={address}
-                onChange={(e) => setAddress(e.target.value)}
-                placeholder="Enter your address"
-                className="w-full px-4 py-2 mb-4 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500"
-              /> */}
+         
               <select
                 value={homeType}
                 onChange={(e) => setHomeType(e.target.value)}
@@ -225,7 +262,8 @@ export default function Testimonial({ open, setOpen }) {
                 type="submit"
                 className="w-full bg-red-900 text-white py-2 rounded-md hover:bg-red-800"
               >
-                Quote
+                {loading ? "Processing.." : "Quote"}
+     
               </button>
             </form>
           </div>
