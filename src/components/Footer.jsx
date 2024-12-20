@@ -22,7 +22,7 @@ export default function Footer() {
       <div className='text-center flex items-center justify-center bg-white p-2'>
         <p>Powered by </p>
         <Link className='text-center ' to='https://techxpert.in/'>
-          <span className="text-red-800 font-semibold">TechXpert</span>
+          <span className="text-red-800 font-semibold ml-2">TechXpert</span>
         </Link>
       </div>
     </div>
