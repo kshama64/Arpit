@@ -47,9 +47,10 @@ export default function Footer1() {
           </a>
         </div> */}
         </div>
-        <div className="text-center p-4 bg-red-800 mt-2 text-white text-sm">
+        <div className="text-center flex items-center justify-center p-4 bg-red-800 mt-2 text-white text-sm">
+          <p>Powered by </p>
           <Link className='text-center' to='https://techxpert.in/'>
-            Powered by  <span className="font-semibold">@TechXpert</span>
+            <span className="font-semibold ml-2">TechXpert</span>
           </Link>
 
         </div>

@@ -19,11 +19,11 @@ export default function Footer() {
         </div>
 
       </footer>
-      <div className='text-center bg-white p-4'>
+      <div className='text-center flex items-center justify-center bg-white p-2'>
+        <p>Powered by </p>
         <Link className='text-center ' to='https://techxpert.in/'>
-          Powered by <span className="text-red-800 font-semibold">@TechXpert</span>
+          <span className="text-red-800 font-semibold">TechXpert</span>
         </Link>
-
       </div>
     </div>
   );

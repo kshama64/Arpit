@@ -73,9 +73,8 @@ export default function Bannerslide() {
         {/* Slider Section */}
         <div className="overflow-hidden">
           <div
-            className={`flex transition-transform ease-out duration-500 ${
-              isTransitioning ? "" : "transition-none"
-            }`}
+            className={`flex transition-transform ease-out duration-500 ${isTransitioning ? "" : "transition-none"
+              }`}
             style={{ transform: `translateX(-${currentIndex * 100}%)` }}
             onTransitionEnd={handleTransitionEnd}
           >
@@ -108,11 +107,10 @@ export default function Bannerslide() {
                 setIsTransitioning(true);
                 setCurrentIndex(index + 1); // Adjust for extendedSlides
               }}
-              className={`w-3 h-3 rounded-full ${
-                index + 1 === currentIndex
-                  ? "bg-yellow-500"
+              className={`w-3 h-3 rounded-full ${index + 1 === currentIndex
+                  ? "bg-red-800"
                   : "bg-gray-300 hover:bg-gray-500"
-              }`}
+                }`}
             ></button>
           ))}
         </div>
