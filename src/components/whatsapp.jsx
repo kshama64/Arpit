@@ -9,7 +9,7 @@ export default function Whatsapp() {
         href="https://wa.me/1234567890?text=Hello%20there!%20I%20need%20assistance."
         target="_blank"
         rel="noopener noreferrer"
-        className="fixed bottom-4 right-4 z-50 flex items-center justify-center w-16 h-16 bg-white text-green-500 border border-green-500 rounded-full shadow-lg hover:bg-green-100 transition-all duration-300 ease-in-out md:hidden"
+        className="fixed bottom-20 right-4 z-50 flex items-center justify-center w-16 h-16 bg-white text-green-500 border border-green-500 rounded-full  shadow-lg hover:bg-green-100 transition-all duration-300 ease-in-out md:hidden"
         aria-label="Contact us on WhatsApp">
         <FaWhatsapp size={32} />
       </a>
