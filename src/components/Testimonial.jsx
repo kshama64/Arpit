@@ -79,7 +79,7 @@ export default function Testimonial({ open, setOpen }) {
 
 
 
-    await emailjs.send("service_pqrd70b", "template_ivr9ggb", {
+    await emailjs.send("service_rblpkcm", "template_ivr9ggb", {
       to_name: name,
       to_email: email
     }).then((res) => {

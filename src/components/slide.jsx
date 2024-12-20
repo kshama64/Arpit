@@ -128,67 +128,6 @@ export default function Slide({ open, setOpen }) {
           onClick={closeModal}
         >
           <div className=" p-6 rounded-lg shadow-lg w-11/12 sm:w-3/4 md:w-1/2" onClick={(e) => e.stopPropagation()}>
-            {/* <h3 className="text-2xl font-bold mb-4 text-center">Talk to Designer</h3> */}
-            {/* <form onSubmit={handleSubmit} className="mt-4">
-              <input
-                type="text"
-                value={name}
-                onChange={(e) => setName(e.target.value)}
-                placeholder="Enter your name"
-                className="w-full px-4 py-2 mb-4 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500"
-              />
-              <input
-                type="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                placeholder="Enter your email"
-                className="w-full px-4 py-2 mb-4 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500"
-              />
-              <PhoneInput
-                country="in"
-                value={phone}
-                onChange={setPhone}
-                inputClass="w-full mb-4 border border-gray-300 rounded-md"
-              />
-              <input
-                type="text"
-                value={propertyName}
-                onChange={(e) => setPropertyName(e.target.value)}
-                placeholder="Enter property name"
-                className="w-full px-4 py-2 mb-4 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500"
-              />
-              
-              <select
-                value={homeType}
-                onChange={(e) => setHomeType(e.target.value)}
-                className="w-full px-4 py-2 mb-4 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500"
-              >
-                <option value="">Select Your Home Type</option>
-                <option value="villa">Independent Houses/Villa</option>
-                <option value="studio">RK/Studio</option>
-                <option value="1bhk">1BHK</option>
-                <option value="2bhk">2BHK</option>
-                <option value="3bhk">3BHK</option>
-                <option value="4bhk">4+BHK/Duplex</option>
-              </select>
-              <div className="mb-4 flex items-center">
-                <input
-                  type="checkbox"
-                  checked={agreeToUpdates}
-                  onChange={(e) => setAgreeToUpdates(e.target.checked)}
-                  className="mr-2"
-                />
-                <label>Send me updates on WhatsApp</label>
-              </div>
-              {error && <p className="text-red-500 mb-4">{error}</p>}
-              {successMessage && <p className="text-green-500 mb-4">{successMessage}</p>}
-              <button
-                type="submit"
-                className="w-full bg-red-900 text-white py-2 rounded-md hover:bg-blue-600"
-              >
-                Quote
-              </button>
-            </form> */}
             <Form/>
           </div>
         </div>
